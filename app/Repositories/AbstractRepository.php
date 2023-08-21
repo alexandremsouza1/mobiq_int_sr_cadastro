@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use Carbon\Carbon;
-use Jenssegers\Mongodb\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractRepository implements IEntityRepository
 {

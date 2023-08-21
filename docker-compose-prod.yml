@@ -1,27 +1,50 @@
-version: '3'
+version: "3"
 services:
-  app:
-    build:
-      context: .
-      dockerfile: docker/prod.Dockerfile
-    ports:
-      - "8000:80"
-    environment:
-    - DB_CONNECTION=mongodb
-    - DB_HOST=mongodb
-    - DB_PORT=27017
-    - DB_DATABASE=mydatabase
-    - DB_USERNAME=root
-    - DB_PASSWORD=root
-    volumes:
-      - .:/var/www/html
-    depends_on:
-    - mongodb
-  mongodb:
-    image: mongo
-    ports:
-      - 27017:27017
-    environment:
-      - MONGO_INITDB_DATABASE=mydatabase
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
+    app:
+        build:
+            context: .
+            dockerfile: docker/prod.Dockerfile
+        container_name: cadastro-api
+        ports:
+            - "8000:8000"
+        environment:
+            - DB_HOST=db
+            - DB_PORT=3306
+            - DB_DATABASE=sr_cadastro
+            - DB_USERNAME=user
+            - DB_PASSWORD=password
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - db
+        healthcheck:
+            test: curl --fail http://localhost:8000 || exit 1
+            interval: 10s
+            timeout: 10s
+            retries: 15
+        networks:
+            - microservice-networks
+    db:
+        image: mysql:8.0
+        ports: 
+            - "3306:3306"
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: sr_cadastro
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+            MYSQL_ROOT_PASSWORD: secret 
+        volumes:
+            - ./docker:/etc/mysql/conf.d
+            - microservice-persistent:/var/lib/mysql
+        networks:
+            - microservice-networks
+        # avoid db issue db_1          | mbind: Operation not permitted
+        security_opt:
+             - seccomp:unconfined
+        restart: always
+volumes:
+    microservice-persistent:
+networks:
+    microservice-networks:
+        driver: bridge
