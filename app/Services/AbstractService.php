@@ -26,6 +26,15 @@ abstract class AbstractService
         throw new HttpException(JsonResponse::HTTP_NOT_FOUND, 'Not found');
     }
 
+    public function getByKey($key, $value)
+    {
+        $result = $this->repository->findByKey($key, $value);
+        if($result) {
+            return $result;
+        }
+        throw new HttpException(JsonResponse::HTTP_NOT_FOUND, 'Not found');
+    }
+
     public function store($data)
     {
         $result = $this->adapter->getAdapt($data);

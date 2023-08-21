@@ -16,16 +16,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'pix'], function () {
-    Route::get('/', [PixController::class, 'index']);
-    Route::get('/{id}', [PixController::class, 'find']);
-    Route::patch('/{id}', [PixController::class, 'update']);
-    Route::post('/', [PixController::class, 'create']);
-});
+Route::group(['prefix' => 'clients'], function () {
 
-Route::group(['prefix' => 'dataSlip'], function () {
-    Route::get('/', [DataSlipController::class, 'index']);
-    Route::get('/{id}', [DataSlipController::class, 'find']);
-    Route::post('/', [DataSlipController::class, 'create']);
-    Route::patch('/{id}', [DataSlipController::class, 'update']);
+    Route::post('/{cnpj}/send-code', [ActivationController::class, 'sendCode']);
+    Route::get('/{cnpj}/check-registration', [ActivationController::class, 'checkRegistration']);
+
+
+    Route::get('/valida-cpf', [ActivationController::class, 'validaCpf']);
+
+    Route::post('/', [ClientController::class, 'create']);
+    Route::post('/{cnpj}/address', [ClientController::class, 'createAddress']);
+    Route::post('/{cnpj}/company', [ClientController::class, 'createCompany']);
+    Route::post('/{cnpj}/logistic', [ClientController::class, 'createLogistic']);
+    Route::post('/{cnpj}/partner', [ClientController::class, 'createPartner']);
+    Route::post('/{cnpj}/documents', [ClientController::class, 'createDocuments']);
+
+    Route::put('/{cnpj}/address', [ClientController::class, 'updateAddress']);
+    Route::put('/{cnpj}/company', [ClientController::class, 'updateCompany']);
+    Route::put('/{cnpj}/logistic', [ClientController::class, 'updateLogistic']);
+    Route::put('/{cnpj}/partner', [ClientController::class, 'updatePartner']);
+    Route::put('/{cnpj}/documents', [ClientController::class, 'updateDocuments']);
+
+    Route::delete('/{cnpj}/address', [ClientController::class, 'deleteAddress']);
+    Route::delete('/{cnpj}/company', [ClientController::class, 'deleteCompany']);
+    Route::delete('/{cnpj}/logistic', [ClientController::class, 'deleteLogistic']);
+    Route::delete('/{cnpj}/partner', [ClientController::class, 'deletePartner']);
+    Route::delete('/{cnpj}/documents', [ClientController::class, 'deleteDocuments']);
+
+    Route::get('/{cnpj}', [ClientController::class, 'get']);
+    Route::get('/{cnpj}/address', [ClientController::class, 'getAddress']);
+    Route::get('/{cnpj}/company', [ClientController::class, 'getCompany']);
+    Route::get('/{cnpj}/logistic', [ClientController::class, 'getLogistic']);
+    Route::get('/{cnpj}/partner', [ClientController::class, 'getPartner']);
+    Route::get('/{cnpj}/documents', [ClientController::class, 'getDocuments']);
+
 });

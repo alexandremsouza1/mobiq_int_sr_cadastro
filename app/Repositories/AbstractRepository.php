@@ -27,6 +27,15 @@ abstract class AbstractRepository implements IEntityRepository
         return false;
     }
 
+    public function findByKey($key, $value)
+    {
+        $result = $this->model->where($key, $value)->first();
+        if($result) {
+            return $result;
+        }
+        return false;
+    }
+
     public function store($data)
     {
         if($this->model->validate($data)) {

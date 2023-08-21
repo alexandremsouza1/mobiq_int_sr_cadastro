@@ -19,9 +19,7 @@ class Client extends Model
     'id_rede',
     'type',
     'category',
-    'pdv_code',
-    'sector',
-    'type_consumer',
+    'pdv_code'
   ];
 
   protected $dates = [
