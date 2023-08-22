@@ -35,4 +35,15 @@ RUN docker-php-ext-enable xdebug
 COPY entrypoint.sh /entrypoint.sh
 
 
+# Install and configure Supervisor
+RUN echo "Installing Supervisor...."
+RUN whoami
+RUN apt-get update && apt-get install -y supervisor
+RUN mkdir -p /var/log/supervisor
+RUN chmod -R 777 /var/log/supervisor
+COPY docker/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
+COPY docker/supervisor/startup.sh /etc/startup.sh
+RUN chmod +x /etc/startup.sh
+
+
 CMD ["/entrypoint.sh"]

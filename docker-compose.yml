@@ -32,8 +32,24 @@ services:
         security_opt:
             - seccomp:unconfined
         restart: always
+    supervisor:
+        container_name: supervisor
+        build:
+            context: ./
+            dockerfile: docker/supervisor/Dockerfile.supervisor
+        restart: unless-stopped
+        environment:
+            - APP_ROOT=/var/www/html
+            - QUEUE_DRIVER=${QUEUE_CONNECTION}
+            - OPTIONS=${QUEUE_OPTIONS}
+            - NUM_PROCS=${NUM_PROCS}
+        networks:
+             - microservice-networks
+        depends_on:
+            - app
+            - db
 volumes:
     microservice-persistent:
 networks:
     microservice-networks:
-        driver: bridge
+        name: microservice-networks

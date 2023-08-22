@@ -1,0 +1,4 @@
+FROM redditsaved/laravel-supervisord:latest
+
+COPY ./ /var/www/html
+

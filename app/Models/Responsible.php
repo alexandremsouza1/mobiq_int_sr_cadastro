@@ -31,11 +31,14 @@ class Responsible extends BaseModel
     'deleted_at',
   ];
 
-  protected $rules = [
-    'name' => 'required',
-    'address' => 'required',
-    'birthday' => 'date',
-  ];
+  public function rules()
+  {
+    return [
+      'name' => 'required',
+      'address' => 'required',
+      'birthday' => 'date_format:Y-m-d\TH:i:s.u\Z'
+    ];
+  }
 
   // Relações do modelo
   public function address() {

@@ -14,11 +14,11 @@ class Client extends BaseModel
     'id',
     'document', //CNPJ ou CPF
     'password', // password_hash('sua senha aqui', 1)
-    'clientId', 
+    'clientId',
     'businessCategory', //Desc_Canal
     'name',
     'sector', //ConsultarSetores
-    'status', 
+    'status',
     'category' // 1 - 5
   ];
 
@@ -28,35 +28,27 @@ class Client extends BaseModel
     'deleted_at',
   ];
 
-//   //
-// | 0-  Tem cadastro na base = dbClient
-// | 1-  Sem registro  = noRegister
-// | 2 - Ativação SMS Pendente  = confirmation
-// | 3 - Cadastro em Análise  = review
-// | 4 - Cadastro Bloqueado =  blocked
-// | 5 - Cadastro Cancelado = canceled
-// | 6 - Cadastro na etapa do Contato = contact
-// | 7 - Cadastro na etapa da Empresa = company
-// | 8 - Cadastro na etapa da Logistica = logistic
-// | 9 - Cadastro na Etapa de Envio de Documento = documents
-// | 10 - Cadastro dentro do prazo para reanalise = reanalysis
-// | 11 - Ativo  = active
-
-  protected $rules = [
-    'status' => Rule::in(
-      ['noRegister', 
-      'confirmation', 
-      'review', 
-      'blocked', 
-      'canceled', 
-      'contact', 
-      'company', 
-      'logistic', 
-      'documents', 
-      'reanalysis', 
-      'active'
-    ]),
+  const TYPES_STATUS =[
+    'noRegister', 
+    'confirmation', 
+    'review', 
+    'blocked', 
+    'canceled', 
+    'contact', 
+    'company', 
+    'logistic', 
+    'documents', 
+    'reanalysis', 
+    'active'
   ];
+
+
+  public function rules()
+  {
+    return [
+      'status' => ['required', Rule::in(self::TYPES_STATUS)],
+    ];
+  }
 
   // Relações do modelo
   public function documents()

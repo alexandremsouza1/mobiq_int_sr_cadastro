@@ -18,11 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/download-boleto/{id}', function ($id) {
-    $file = storage_path('framework/cache/data/boletos/'.$id);
-    return response()->file($file);
-});
-
 
 Route::get('phpmyinfo', function () {
     phpinfo(); 

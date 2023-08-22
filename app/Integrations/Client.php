@@ -10,7 +10,7 @@ class Client {
 
   public function __construct()
   {
-    $this->microservice_sap_integration_url = env('MICROSERVICE_SAP_INTEGRATION');
+    $this->microservice_sap_integration_url = env('MICROSERVICE_SAP_INTEGRATION_URL');
   }
 
 

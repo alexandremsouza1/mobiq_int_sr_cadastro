@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Integrations\Source;
+use App\Services\ClientService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,15 +15,20 @@ class UpdateClientsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private $sourceWsdl;
+
+    private $clientService;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Source $sourceWsdl, ClientService $clientService)
     {
-        //
+        $this->sourceWsdl = $sourceWsdl;
+        $this->clientService = $clientService;
     }
+ 
 
     /**
      * Execute the job.
@@ -35,13 +42,7 @@ class UpdateClientsJob implements ShouldQueue
 
         echo $welcomeMessage;
 
-        $serviceManager = $this->getServiceManager();
-        /** @var Source $sourceWsdl */
-        $sourceWsdl = $serviceManager->get(Source::class);
-        /** @var ClientSectorTableGateway $clientSectorTableGateway */
-        $clientSectorTableGateway = $serviceManager->get(ClientSectorTableGateway::class);
-        /** @var ClientService $clientService */
-        $clientService = $serviceManager->get(ClientService::class);
+
         $totalClientes = 0;
 
         try {
@@ -49,7 +50,7 @@ class UpdateClientsJob implements ShouldQueue
             $output .= $buscandoSetores;
             echo $buscandoSetores;
 
-            $dataSetores = $sourceWsdl->getImportarSetores();
+            $dataSetores = $this->sourceWsdl->getImportarSetores();
 
             $buscandoSetoresResult = 'ok. ' . count($dataSetores) . ' setores obtidos' . PHP_EOL;
             $output .= $buscandoSetoresResult;
@@ -59,7 +60,7 @@ class UpdateClientsJob implements ShouldQueue
             $output .= $gravandoSetores;
             echo $gravandoSetores;
 
-            $atualizaSetores = $clientSectorTableGateway->persistSectors($dataSetores);
+            //$atualizaSetores = $clientSectorTableGateway->persistSectors($dataSetores);
 
             $gravandoSetoresResult = 'ok' . PHP_EOL;
             $output .= $gravandoSetoresResult;
@@ -69,18 +70,18 @@ class UpdateClientsJob implements ShouldQueue
             $output .= $iteracaoSetores;
             echo $iteracaoSetores;
 
-            foreach ($atualizaSetores as $setor) {
+            foreach ($dataSetores as $setor) {
                 $buscandoClientesSetor = ' - buscando clientes do setor ' . $setor . ' ... ';
                 $output .= $buscandoClientesSetor;
                 echo $buscandoClientesSetor;
 
-                $dataClientes = $sourceWsdl->getImportarClientes($setor);
+                $dataClientes = $this->sourceWsdl->getImportarClientes($setor);
 
                 $buscandoClientesSetorResult = 'ok. ' . count($dataClientes) . ' localizados. Persistindo clientes na base de dados ... ';
                 $output .= $buscandoClientesSetorResult;
                 echo $buscandoClientesSetorResult;
 
-                $clientService->persistClients($dataClientes, $setor);
+                $this->clientService->persistClients($dataClientes, $setor);
 
                 $buscandoClientesSetorFim = 'ok' . PHP_EOL;
                 $output .= $buscandoClientesSetorFim;
@@ -88,7 +89,7 @@ class UpdateClientsJob implements ShouldQueue
 
                 $totalClientes += count($dataClientes);
             }
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             $excessao = PHP_EOL . PHP_EOL . '----------------------------------------------' . PHP_EOL . PHP_EOL;
             $excessao .= PHP_EOL . PHP_EOL . 'Excessão na execução: ' . $exception->getMessage() . PHP_EOL . PHP_EOL;
             $excessao .= PHP_EOL . PHP_EOL . '----------------------------------------------' . PHP_EOL . PHP_EOL;
@@ -100,12 +101,6 @@ class UpdateClientsJob implements ShouldQueue
         $fimProcesso = PHP_EOL . PHP_EOL . 'Processo finalizado. Um total de ' . $totalClientes . ' clientes foram atualizados/cadastrados' . PHP_EOL . PHP_EOL;
         $output .= $fimProcesso;
         echo $fimProcesso;
-
-        /** @var Adapter $dbAdapter */
-        $dbAdapter = $serviceManager->get(Adapter::class);
-        $dbAdapter->query("INSERT INTO cron_logs (cron_name, result, created) VALUES (?,?,?)")
-            ->execute(['atualiza-clientes', $output, date('Y-m-d H:i:s')]);
-
         return true;
     }
 }

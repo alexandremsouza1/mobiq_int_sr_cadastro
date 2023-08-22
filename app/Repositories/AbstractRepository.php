@@ -36,13 +36,25 @@ abstract class AbstractRepository implements IEntityRepository
         return false;
     }
 
-    public function store($data)
+    // public function store($data)
+    // {
+    //     if($this->model->validate($data)) {
+    //         $modelInstance = new $this->model($data);
+    //         if($modelInstance->save()) {
+    //             return $modelInstance->id;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    public function store($data,$key = 'id')
     {
         if($this->model->validate($data)) {
-            $pixInstance = new $this->model($data);
-            if($pixInstance->save()) {
-                return $pixInstance->id;
-            }
+            $item = $this->model->updateOrCreate(
+                [$key => $data[$key]],
+                $data
+            );
+            return $item->id; 
         }
         return false;
     }

@@ -19,13 +19,15 @@ class Partner extends BaseModel
     'birthday'
   ];
 
-  protected $rules = [
-    'companyId' => 'required',
-    'firstName' => 'required',
-    'lastName' => 'required',
-    'cpf' => 'required',
-    'birthday' => 'date'
-  ];
+  public function rules()
+  {
+    return [
+      'firstName' => 'required',
+      'lastName' => 'required',
+      'cpf' => 'required',
+      'birthday' => 'date_format:Y-m-d\TH:i:s.u\Z'
+    ];
+  }
 
   protected $dates = [
     'created_at',
