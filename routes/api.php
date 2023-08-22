@@ -1,6 +1,7 @@
 <?php
 
-
+use App\Http\Controllers\ActivationController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DataSlipController;
 use App\Http\Controllers\PixController;
 use Illuminate\Support\Facades\Route;
@@ -19,10 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'clients'], function () {
 
     Route::post('/{cnpj}/send-code', [ActivationController::class, 'sendCode']);
-    Route::get('/{cnpj}/check-registration', [ActivationController::class, 'checkRegistration']);
-
-
-    Route::get('/valida-cpf', [ActivationController::class, 'validaCpf']);
+    
+    Route::get('/{cnpj}/registration-status', [ClientController::class, 'checkRegistration']);
+    Route::get('/valida-cpf', [ClientController::class, 'validaCpf']);
 
     Route::post('/', [ClientController::class, 'create']);
     Route::post('/{cnpj}/address', [ClientController::class, 'createAddress']);

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
-
+use App\Services\ClientService;
+use App\Services\CompanyService;
+use App\Services\LogisticService;
+use App\Services\PartnersDocumentsService;
+use App\Services\PartnerService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -20,7 +23,12 @@ class ClientController extends DefaultApiController
     protected $documentsService;
 
 
-    public function __construct(ClientService $clientService, PartnerService $partnerService, CompanyService $companyService, LogisticService $logisticService, DocumentsService $documentsService)
+    public function __construct(
+        ClientService $clientService, 
+        PartnerService $partnerService, 
+        CompanyService $companyService, 
+        LogisticService $logisticService, 
+        PartnersDocumentsService $documentsService)
     {
         $this->clientService = $clientService;
         $this->partnerService = $partnerService;
@@ -36,16 +44,11 @@ class ClientController extends DefaultApiController
 
         $client = $this->clientService->getStatusCnpj($cnpj);
 
-        $data = [
-            'status' => $client->status,
-            'message' => $client->message
-        ];
-
         $statusCode = 200;
 
         $messageText = 'Cnpj status successfully obtained';
 
-        return response()->json(['data' => $data,'message' => $messageText, 'status' => true], $statusCode);
+        return response()->json(['data' => $client,'message' => $messageText, 'status' => true], $statusCode);
     }
  
 

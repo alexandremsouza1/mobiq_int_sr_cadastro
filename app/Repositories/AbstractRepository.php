@@ -41,7 +41,7 @@ abstract class AbstractRepository implements IEntityRepository
         if($this->model->validate($data)) {
             $pixInstance = new $this->model($data);
             if($pixInstance->save()) {
-                return $pixInstance->_id;
+                return $pixInstance->id;
             }
         }
         return false;
@@ -52,7 +52,7 @@ abstract class AbstractRepository implements IEntityRepository
         $now = Carbon::now();
         $data['updated_at'] = $now->format('Y-m-d\TH:i:s.u\Z');
         if($this->model->validate($data)) {
-            if(!$this->model->where('_id', $id)->update($data)) {
+            if(!$this->model->where('id', $id)->update($data)) {
                 return false;
             }
         }
@@ -61,6 +61,6 @@ abstract class AbstractRepository implements IEntityRepository
 
     public function delete($id)
     {
-        return $this->model->where('_id', $id)->delete();
+        return $this->model->where('id', $id)->delete();
     }
 }

@@ -5,12 +5,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClientDocuments extends BaseModel
+class PartnersDocuments extends BaseModel
 {
-    protected $table = 'client_documents';
+    protected $table = 'partners_documents';
 
     protected $fillable = [
-        'clientId',
+        'partnerId',
         'identification', 
         'addressProof',
         'storeFront',
@@ -19,6 +19,6 @@ class ClientDocuments extends BaseModel
 
     public function cliente()
     {
-        return $this->belongsTo(Cliente::class);
+        return $this->belongsTo(Partner::class);
     }
 }
