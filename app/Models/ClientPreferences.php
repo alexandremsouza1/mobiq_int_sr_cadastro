@@ -5,9 +5,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClientPreferences extends Model
+class ClientPreferences extends BaseModel
 {
     // Campos do modelo
+
+    protected $table = 'client_preferences';
 
     protected $fillable = [
         'clientId',

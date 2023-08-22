@@ -5,8 +5,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class Company extends BaseModel
 {
+
+  protected $table = 'companies';
   // Campos do modelo
   protected $fillable = [
     'id',
@@ -31,7 +33,7 @@ class Company extends Model
   // Relações do modelo
   public function address()
   {
-    return $this->hasOne(CompanyAddress::class);
+    return $this->hasOne(Adresses::class);
   }
 
   public function responsible()

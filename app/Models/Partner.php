@@ -6,8 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Partner extends Model
+class Partner extends BaseModel
 {
+  protected $table = 'partners';
   // Campos do modelo
   protected $fillable = [
     'id',

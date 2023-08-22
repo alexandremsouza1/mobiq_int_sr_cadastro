@@ -5,9 +5,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClientDocuments extends Model
+class ClientDocuments extends BaseModel
 {
-    // Campos do modelo
+    protected $table = 'client_documents';
 
     protected $fillable = [
         'clientId',

@@ -6,8 +6,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 
-class ClientMeta extends Model
+class ClientMeta extends BaseModel
 {
+
+  protected $table = 'client_meta';
   // Campos do modelo
 
   protected $fillable = [

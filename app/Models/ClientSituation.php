@@ -5,8 +5,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ClientSituation extends Model
+class ClientSituation extends BaseModel
 {
+
+  protected $table = 'client_situation';
   protected $fillable = [
     'clientId',
     'hasNoDebt',

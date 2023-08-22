@@ -6,8 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 
-class Delivery extends Model
+class Logistic extends BaseModel
 {
+
+  protected $table = 'logistics';
+  
   protected $fillable = [
     'companyId',
     'availableDays',

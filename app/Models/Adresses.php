@@ -1,14 +1,19 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CompanyAddress extends Model
+
+class Adresses extends BaseModel
 {
   // Campos do modelo
+
+  protected $table = 'adresses';
+
   protected $fillable = [
-    'companyId',
+    'id',
     'postalCode',
     'street',
     'streetNumber',
@@ -18,6 +23,12 @@ class CompanyAddress extends Model
     'city',
     'state',
   ];
+
+
+  public function responsible()
+  {
+      return $this->belongsTo(Responsible::class);
+  }
 
 
   public function company()

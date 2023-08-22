@@ -6,8 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Responsible extends Model {
+class Responsible extends BaseModel {
   // Campos do modelo
+
+
+  protected $table = 'responsibles';
 
   protected $fillable = [
     'id',
@@ -35,7 +38,7 @@ class Responsible extends Model {
 
   // Relações do modelo
   public function address() {
-      return $this->hasOne(ResponsibleAddress::class);
+      return $this->hasOne(Adresses::class);
   }
 
 }

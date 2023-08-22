@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class Base
@@ -12,31 +13,21 @@ use Illuminate\Support\Facades\Validator;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
-abstract class BaseModel extends Eloquent
+abstract class BaseModel extends Model
 {
-    const PRIMARY_KEY       = '_id';
-
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-    }
+    const PRIMARY_KEY       = 'id';
 
 
     /**
      * @param $data
      * @return bool
      */
-    public function validate($data)
+    public function validate()
     {
-        if (!$data) {
-          return false;
-        }
-
-        $v = Validator::make($data, $this->rules());
-        $v->validate();
-        if ($v->fails()) {
-          return false;
+        $validator = app('validator')->make($this->toArray(), $this->getRules());
+  
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
         }
         return true;
     }
