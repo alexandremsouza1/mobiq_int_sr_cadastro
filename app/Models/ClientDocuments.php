@@ -10,10 +10,15 @@ class ClientDocuments extends Model
     // Campos do modelo
 
     protected $fillable = [
-        'cnpj',
-        'photo_address',
-        'photo_document',
-        'photo_establishment_facade',
-        'interior_establishment_photo'
+        'clientId',
+        'identification', 
+        'addressProof',
+        'storeFront',
+        'storeInterior'
     ];
+
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class);
+    }
 }

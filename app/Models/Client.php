@@ -9,17 +9,14 @@ class Client extends Model
 {
   protected $fillable = [
     'id',
-    'client_id',
-    'client_type_id',
+    'document', //CNPJ ou CPF
+    'password', // password_hash('sua senha aqui', 1)
+    'clientId', 
+    'businessCategory', //Desc_Canal
     'name',
-    'sector',
-    'agent_id',
-    'type_consumer',
-    'activated',
-    'id_rede',
-    'type',
-    'category',
-    'pdv_code'
+    'sector', //ConsultarSetores
+    'status', // active , blocked , review ,  dbClient , noRegister ,  confirmation,  company ,  logistic,  partner ,  documents
+    'category' // 1 - 5
   ];
 
   protected $dates = [
@@ -31,7 +28,7 @@ class Client extends Model
   // Relações do modelo
   public function documents()
   {
-    return $this->hasOne(ClientDocuments::class);
+    return $this->hasMany(ClientDocuments::class);
   }
 
   public function authentication()

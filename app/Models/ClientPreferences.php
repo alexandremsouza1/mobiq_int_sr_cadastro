@@ -10,6 +10,12 @@ class ClientPreferences extends Model
     // Campos do modelo
 
     protected $fillable = [
-        'notification_preferences',
+        'clientId',
+        'notificationPreferences',
     ];
+
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class);
+    }
 }

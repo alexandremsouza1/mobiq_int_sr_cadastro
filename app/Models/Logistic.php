@@ -4,23 +4,35 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 class Delivery extends Model
 {
   protected $fillable = [
-    'key',
-    'day_week',
-    'from',
-    'to',
-    'work_shift',
-    'service'
+    'companyId',
+    'availableDays',
+    'availableHours',
+    'attendanceMode',
+    'openingStatus'
+  ];
+
+  protected $dates = [
+    'created_at',
+    'updated_at',
+    'deleted_at',
   ];
 
 
   //rules
   public static $rules = [
-    'service' => Rule::in(['face-to-face', 'phone', 'digital']),
+    'attendanceMode' => Rule::in(['face-to-face', 'phone', 'digital']),
+    'openingStatus' => Rule::in(['open', 'openingSoon', 'openingLater']),
   ];
+
+  public function company()
+  {
+      return $this->belongsTo(Company::class);
+  }
 
 
 }

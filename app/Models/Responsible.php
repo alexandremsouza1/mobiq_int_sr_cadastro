@@ -10,14 +10,27 @@ class Responsible extends Model {
   // Campos do modelo
 
   protected $fillable = [
-    'responsible_name',
-    'responsible_email',
-    'responsible_password',
-    'responsible_password_temp',
-    'responsible_password_temp_expire_at',
-    'responsible_phone',
-    'responsible_birthday',
-    'responsible_address'
+    'id',
+    'name',
+    'address',
+    'birthday',
+    'email',
+    'password',
+    'cellphone',
+    'comercialPhone',
+    'residencialPhone',
+  ];
+
+  protected $dates = [
+    'created_at',
+    'updated_at',
+    'deleted_at',
+  ];
+
+  protected $rules = [
+    'name' => 'required',
+    'address' => 'required',
+    'birthday' => 'date',
   ];
 
   // Relações do modelo

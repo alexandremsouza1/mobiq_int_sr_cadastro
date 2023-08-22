@@ -8,9 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class ClientSituation extends Model
 {
   protected $fillable = [
-    'has_no_debt',
+    'clientId',
+    'hasNoDebt',
     'debt',
   ];
+
+  public function cliente()
+  {
+      return $this->belongsTo(Cliente::class);
+  }
 
 
 }

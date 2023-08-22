@@ -10,9 +10,30 @@ class Partner extends Model
 {
   // Campos do modelo
   protected $fillable = [
-    'partner_cpf',
-    'first_member_name',
-    'last_member_name',
-    'partner_birth_date',
+    'id',
+    'companyId',
+    'firstName',
+    'lastName',
+    'cpf',
+    'birthday'
   ];
+
+  protected $rules = [
+    'companyId' => 'required',
+    'firstName' => 'required',
+    'lastName' => 'required',
+    'cpf' => 'required',
+    'birthday' => 'date'
+  ];
+
+  protected $dates = [
+    'created_at',
+    'updated_at',
+    'deleted_at',
+  ];
+
+  public function company()
+  {
+      return $this->belongsTo(Company::class);
+  }
 }
