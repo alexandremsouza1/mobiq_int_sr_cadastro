@@ -4,24 +4,24 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClientSituationTable extends Migration
+class CreateVerificationTokensTable extends Migration
 {
     public function up()
     {
-        Schema::create('client_situation', function (Blueprint $table) {
+        Schema::create('verification_tokens', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('client_id');
-            $table->boolean('has_no_debt');
-            $table->decimal('debt', 10, 2)->nullable();
+            $table->string('token');
+            $table->string('type'); 
+            $table->timestamp('expires_at');
             $table->timestamps();
 
-            // Adicionar chave estrangeira para cliente
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('client_situation');
+        Schema::dropIfExists('verification_tokens');
     }
 }

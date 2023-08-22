@@ -6,7 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Responsible extends BaseModel {
+class Responsible extends BaseModel 
+{
   // Campos do modelo
 
 
