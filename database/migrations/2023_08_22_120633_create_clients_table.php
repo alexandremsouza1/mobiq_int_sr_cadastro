@@ -11,13 +11,13 @@ class CreateClientsTable extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('document'); // CNPJ ou CPF
-            $table->string('password'); // password_hash('sua senha aqui', 1)
-            $table->string('clientId');
-            $table->string('businessCategory'); // Desc_Canal
+            $table->string('password')->nullable(); // password_hash('sua senha aqui', 1)
+            $table->string('clientId')->nullable();
+            $table->string('businessCategory')->nullable(); // Desc_Canal
             $table->string('name');
             $table->string('sector'); // ConsultarSetores
             $table->string('status'); // active, blocked, review, dbClient, noRegister, confirmation, company, logistic, partner, documents
-            $table->integer('category'); // 1 - 5
+            $table->integer('category')->nullable(); // 1 - 5
 
             $table->timestamps();
             $table->softDeletes();

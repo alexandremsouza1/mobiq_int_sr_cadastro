@@ -29,6 +29,7 @@ class Client extends BaseModel
   ];
 
   const TYPES_STATUS =[
+    'dbClient',
     'noRegister', 
     'confirmation', 
     'review', 
@@ -46,6 +47,9 @@ class Client extends BaseModel
   public function rules()
   {
     return [
+      'document' => 'required|string|max:255',
+      'name' => 'required|string|max:255',
+      'sector' => 'required|string|max:255',
       'status' => ['required', Rule::in(self::TYPES_STATUS)],
     ];
   }
@@ -59,5 +63,11 @@ class Client extends BaseModel
   public function authentication()
   {
     return $this->hasOne(ClientAuthentication::class);
+  }
+
+  //client_situations
+  public function clientSituation()
+  {
+    return $this->hasOne(ClientSituation::class);
   }
 }

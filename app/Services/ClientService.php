@@ -35,16 +35,28 @@ class ClientService extends AbstractService
           'clientId' => $item['CLIENTE'],
           'document' => $item['CNPJ'],
           'name' => $item['RAZAO_SOCIAL'],
-          'ClientSituation' =>
-          [
-            'hasNoDebt' => $item['DIVIDA'] == 0 ? 0 : 1,
-            'debt' => $item['DIVIDA'],
-          ],
+          'situation' => $item['DIVIDA'],
           'sector' => $sector,
+          'status' => 'dbClient',
         ];
 
-        $this->repository->store($clientData, 'clientId');
+        $this->create($clientData); 
       }
+    }
+  }
+
+  public function create($clientData)
+  {
+    $client = $this->repository->store($clientData, 'clientId');
+    if(isset($clientData['situation'])){
+      $clientSituation = $clientData['situation'];
+        $client->clientSituation()->updateOrCreate(
+          ['client_id' => $client->id],
+          [
+            'has_no_debt' => $clientSituation == 0 ? 0 : 1,
+            'debt' => $clientSituation,
+          ]
+        );
     }
   }
 

@@ -49,12 +49,13 @@ abstract class AbstractRepository implements IEntityRepository
 
     public function store($data,$key = 'id')
     {
+        $this->model->fill($data);
         if($this->model->validate($data)) {
             $item = $this->model->updateOrCreate(
                 [$key => $data[$key]],
                 $data
             );
-            return $item->id; 
+            return $item;
         }
         return false;
     }

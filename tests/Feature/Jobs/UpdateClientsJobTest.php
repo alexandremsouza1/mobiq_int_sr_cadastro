@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tests\Feature;
+namespace Tests\Feature\Jobs;
 
 use App\Integrations\Source;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +15,7 @@ class UpdateClientsJobTest extends TestCase
     use RefreshDatabase;
 
 
-    //vendor/bin/phpunit --filter testUpdateClientsJobDispatchesCorrectly tests/Feature/UpdateClientsJobTest.php
+    //vendor/bin/phpunit --filter testUpdateClientsJobDispatchesCorrectly tests/Feature/Jobs/UpdateClientsJobTest.php
     public function testUpdateClientsJobDispatchesCorrectly()
     {
 
