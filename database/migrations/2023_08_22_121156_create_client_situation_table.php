@@ -12,7 +12,7 @@ class CreateClientSituationTable extends Migration
             $table->id();
             $table->unsignedBigInteger('client_id');
             $table->boolean('has_no_debt')->default(0);
-            $table->decimal('debt', 10, 2)->nullable();
+            $table->string('debt')->nullable();
             $table->timestamps();
 
             // Adicionar chave estrangeira para cliente

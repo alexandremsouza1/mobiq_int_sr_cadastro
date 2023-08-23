@@ -48,13 +48,13 @@ class ClientService extends AbstractService
   public function create($clientData)
   {
     $client = $this->repository->store($clientData, 'clientId');
-    if(isset($clientData['situation'])){
-      $clientSituation = $clientData['situation'];
+    if($clientData['situation']){
+      $DIVIDA = $clientData['situation'];
         $client->clientSituation()->updateOrCreate(
           ['client_id' => $client->id],
           [
-            'has_no_debt' => $clientSituation == 0 ? 0 : 1,
-            'debt' => $clientSituation,
+            'has_no_debt' => $DIVIDA == 0 ? 0 : 1,
+            'debt' => $DIVIDA,
           ]
         );
     }
