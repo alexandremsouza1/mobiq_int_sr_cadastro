@@ -71,6 +71,7 @@ class UpdateClientsJob implements ShouldQueue
             echo $iteracaoSetores;
 
             foreach ($dataSetores as $setor) {
+                $setor = $setor['Setor'];
                 $buscandoClientesSetor = ' - buscando clientes do setor ' . $setor . ' ... ';
                 $output .= $buscandoClientesSetor;
                 echo $buscandoClientesSetor;

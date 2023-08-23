@@ -12,7 +12,7 @@ services:
         depends_on:
             - db
         networks:
-            - microservice-networks
+            - mup_network
     db:
         image: mysql:8.0
         ports:
@@ -27,7 +27,7 @@ services:
             - ./docker:/etc/mysql/conf.d
             - microservice-persistent:/var/lib/mysql
         networks:
-            - microservice-networks
+            - mup_network
         # avoid db issue db_1          | mbind: Operation not permitted
         security_opt:
             - seccomp:unconfined
@@ -44,12 +44,12 @@ services:
             - OPTIONS=${QUEUE_OPTIONS}
             - NUM_PROCS=${NUM_PROCS}
         networks:
-             - microservice-networks
+             - mup_network
         depends_on:
             - app
             - db
 volumes:
     microservice-persistent:
 networks:
-    microservice-networks:
-        name: microservice-networks
+    mup_network:
+        name: mup_network

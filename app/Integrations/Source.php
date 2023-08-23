@@ -16,21 +16,23 @@ class Source
 
   public function getValidaCPF($cpf, $birth_date)
   {
-    return $this->client->post('valida-cpf', [
+    $result = $this->client->post('valida-cpf', [
       'cpf' => $cpf,
       'birth_date' => $birth_date
     ]);
+    return $result['data'];
   }
 
   public function getImportarSetores()
   {
-    return $this->client->get('consultar-setores');
+    $result = $this->client->get('consultar-setores');
+    return $result['data'];
   }
 
   public function getImportarClientes($sector)
   {
-    return $this->client->get('importar-clientes', [
-      'setor' => $sector
-    ]);
+    $url = 'importar-clientes?setor=' . $sector;
+    $result = $this->client->get($url);
+    return $result['data'];
   }
 }
